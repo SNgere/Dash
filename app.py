@@ -2,11 +2,8 @@ import dash_bootstrap_components as dbc
 from dash import Dash, dcc
 from header import header
 
-icons = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-
-
 app = Dash(
-    external_stylesheets=[dbc.themes.DARKLY, icons],
+    external_stylesheets=[dbc.themes.DARKLY],
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
     ],
@@ -52,7 +49,7 @@ app.layout = (
                                                 inline=True,
                                                 switch=True,
                                             ),
-                                            md=6,
+                                            md=6,xs=12
                                         ),
                                         dbc.Col(
                                             dcc.RangeSlider(
@@ -61,10 +58,7 @@ app.layout = (
                                                 max=2026,
                                                 step=1,
                                                 value=[2018, 2026],
-                                                marks={
-                                                    year: str(year)
-                                                    for year in range(2018, 2027)
-                                                },
+                                                marks={year: str(year) if year % 2 == 0 else "" for year in range(2018, 2027)},
                                                 tooltip={
                                                     "placement": "bottom",
                                                     "always_visible": True,
@@ -75,9 +69,10 @@ app.layout = (
                                                 pushable=1,
                                                 included=True,
                                             ),
-                                            md=6,
+                                            md=6,xs=12
                                         ),
-                                    ]
+                                    ],
+                                    className="gy-2"
                                 )
                             ),
                         ],
