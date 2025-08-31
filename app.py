@@ -7,6 +7,7 @@ import plotly.express as px
 from wordcloud import WordCloud
 from io import BytesIO
 import base64
+from line_word import row
 
 
 con = duckdb.connect("crashes.duckdb", read_only=True)
@@ -55,7 +56,7 @@ word_query = """
     SELECT BOROUGH, Year, "CONTRIBUTING FACTOR VEHICLE 4"
     FROM crashes
     UNION ALL
-    SELECT BOROUGH Year, "CONTRIBUTING FACTOR VEHICLE 5"
+    SELECT BOROUGH, Year, "CONTRIBUTING FACTOR VEHICLE 5"
     FROM crashes
 ),
 reasons AS (
@@ -64,7 +65,7 @@ reasons AS (
     WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
 ),
 words AS (
-    SELECT reasons, COUNT(reasons) AS Count
+    SELECT reasons AS Word, COUNT(reasons) AS Count
     FROM reasons
     GROUP BY reasons
     
@@ -111,11 +112,12 @@ def line_chart(borough, year_range):
 def word_cloud_plot(worddf):
     word_dict = dict(zip(worddf["Word"], worddf["Count"]))
     wordcloud = WordCloud(
-        # width=1200,
-        # height=590,
+        width=1200,
+        height=600,
         background_color=None,
         mode="RGBA",
-        colormap="YlOrRd",
+        colormap="Set1",
+        # colormap="YlOrRd",
     ).generate_from_frequencies(word_dict)
     return wordcloud
 
@@ -147,70 +149,68 @@ def word_cloud_func(borough, year_range):
 def update_app(borough, year_range):
     return [
         kpi(con, borough, year_range),
-        dbc.Row(
-            children=[
-                dbc.Col(
-                    children=[
-                        dbc.Card(
-                            children=[
-                                dbc.CardHeader(
-                                    "Crashes by Borough Over Time",
-                                    className="fw-bold border-0",
-                                ),
-                                dbc.CardBody(
-                                    children=[
-                                        dcc.Graph(
-                                            figure=line_chart(borough, year_range),
-                                            config={
-                                                "displayModeBar": False,
-                                                "staticPlot": True,
-                                            },
-                                        )
-                                    ],
-                                    className="border-0",
-                                ),
-                                dbc.CardFooter(
-                                    "Yearly trends of vehicle collisions across selected boroughs",
-                                    className="fw-bold border-0",
-                                ),
-                            ],
-                            className="border-0 shadow",
-                        )
-                    ],
-                    xs=12,
-                    md=7,
-                ),
-                dbc.Col(
-                    children=[
-                        dbc.Card(
-                            children=[
-                                dbc.CardHeader(
-                                    "Crashes by Borough Over Time",
-                                    className="fw-bold border-0",
-                                ),
-                                dbc.CardBody(
-                                    children=[
-                                        html.Img(
-                                            src=word_cloud_func(borough, year_range)
-                                        )
-                                    ],
-                                    className="border-0",
-                                ),
-                                dbc.CardFooter(
-                                    "Yearly trends of vehicle collisions across selected boroughs",
-                                    className="fw-bold border-0",
-                                ),
-                            ],
-                            className="border-0 shadow",
-                        )
-                    ],
-                    xs=12,
-                    md=3,
-                ),
-            ],
-            className="mt-3",
-            justify="around",
-        ),
+        row(con, borough, year_range)
+        # dbc.Row(
+        #     children=[
+        #         dbc.Col(
+        #             children=[
+        #                 dbc.Card(
+        #                     children=[
+        #                         dbc.CardHeader(
+        #                             "Crashes by Borough Over Time",
+        #                             className="fw-bold border-0",
+        #                         ),
+        #                         dbc.CardBody(
+        #                             children=[
+        #                                 dcc.Graph(
+        #                                     figure=line_chart(borough, year_range),
+        #                                     config={
+        #                                         "displayModeBar": False,
+        #                                         "staticPlot": True,
+        #                                     },
+        #                                 )
+        #                             ],
+        #                             className="border-0",
+        #                         ),
+        #                         dbc.CardFooter(
+        #                             "Line chart showing the number of crashes by borough over time",
+        #                             className="fw-bold border-0",
+        #                         ),
+        #                     ],
+        #                     className="border-0 shadow-lg",
+        #                 )
+        #             ],
+        #             xs=12,
+        #             md=6,
+        #         ),
+        #         dbc.Col(
+        #             children=[
+        #                 dbc.Card(
+        #                     children=[
+        #                         dbc.CardHeader(
+        #                             "Contributing Factors Analysis",
+        #                             className="fw-bold border-0",
+        #                         ),
+        #                         dbc.CardImg(
+        #                             src=word_cloud_func(borough, year_range),
+        #                             className="border-0",
+        #                         ),
+        #                         dbc.CardFooter(
+        #                             "Analysis of the most common contributing factors in vehicle crashes",
+        #                             className="fw-bold border-0",
+        #                         ),
+        #                     ],
+        #                     className="border-0 shadow-lg",
+        #                 )
+        #             ],
+        #             className="align-content-center",
+        #             xs=12,
+        #             md=6,
+        #         ),
+        #     ],
+        #     className="mt-3 gy-3",
+        #     # justify="around",
+        # ),
     ]
 
 
