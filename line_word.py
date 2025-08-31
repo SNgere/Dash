@@ -1,8 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import Dash, Input, Output, html, dcc
-from header import header, filter
-from kpi import kpi
-import duckdb
+from dash import dcc
 import plotly.express as px
 from wordcloud import WordCloud
 from io import BytesIO
@@ -116,65 +113,66 @@ def word_cloud_func(con, borough, year_range):
 
     return f"data:image/png;base64,{img_base64}"
 
+
 def row(con, borough, year_range):
     return dbc.Row(
-            children=[
-                dbc.Col(
-                    children=[
-                        dbc.Card(
-                            children=[
-                                dbc.CardHeader(
-                                    "Crashes by Borough Over Time",
-                                    className="fw-bold border-0",
-                                ),
-                                dbc.CardBody(
-                                    children=[
-                                        dcc.Graph(
-                                            figure=line_chart(con,borough, year_range),
-                                            config={
-                                                "displayModeBar": False,
-                                                "staticPlot": True,
-                                            },
-                                        )
-                                    ],
-                                    className="border-0",
-                                ),
-                                dbc.CardFooter(
-                                    "Line chart showing the number of crashes by borough over time",
-                                    className="fw-bold border-0",
-                                ),
-                            ],
-                            className="border-0 shadow-lg",
-                        )
-                    ],
-                    xs=12,
-                    md=6,
-                ),
-                dbc.Col(
-                    children=[
-                        dbc.Card(
-                            children=[
-                                dbc.CardHeader(
-                                    "Contributing Factors Analysis",
-                                    className="fw-bold border-0",
-                                ),
-                                dbc.CardImg(
-                                    src=word_cloud_func(con, borough, year_range),
-                                    className="border-0",
-                                ),
-                                dbc.CardFooter(
-                                    "Analysis of the most common contributing factors in vehicle crashes",
-                                    className="fw-bold border-0",
-                                ),
-                            ],
-                            className="border-0 shadow-lg",
-                        )
-                    ],
-                    className="align-content-center",
-                    xs=12,
-                    md=6,
-                ),
-            ],
-            className="mt-3 gy-3",
-            # justify="around",
-        )
+        children=[
+            dbc.Col(
+                children=[
+                    dbc.Card(
+                        children=[
+                            dbc.CardHeader(
+                                "Crashes by Borough Over Time",
+                                className="fw-bold border-0",
+                            ),
+                            dbc.CardBody(
+                                children=[
+                                    dcc.Graph(
+                                        figure=line_chart(con, borough, year_range),
+                                        config={
+                                            "displayModeBar": False,
+                                            "staticPlot": True,
+                                        },
+                                    )
+                                ],
+                                className="border-0",
+                            ),
+                            dbc.CardFooter(
+                                "Line chart showing the number of crashes by borough over time",
+                                className="fw-bold border-0",
+                            ),
+                        ],
+                        className="border-0 shadow-lg",
+                    )
+                ],
+                xs=12,
+                md=6,
+            ),
+            dbc.Col(
+                children=[
+                    dbc.Card(
+                        children=[
+                            dbc.CardHeader(
+                                "Contributing Factors Analysis",
+                                className="fw-bold border-0",
+                            ),
+                            dbc.CardImg(
+                                src=word_cloud_func(con, borough, year_range),
+                                className="border-0",
+                            ),
+                            dbc.CardFooter(
+                                "Analysis of the most common contributing factors in vehicle crashes",
+                                className="fw-bold border-0",
+                            ),
+                        ],
+                        className="border-0 shadow-lg",
+                    )
+                ],
+                className="align-content-center",
+                xs=12,
+                md=6,
+            ),
+        ],
+        className="mt-3 gy-3",
+        # justify="around",
+    )
