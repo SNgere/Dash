@@ -128,7 +128,9 @@ def row(borough, year_range, template, con):
                             dbc.CardBody(
                                 children=[
                                     dcc.Graph(
-                                        figure=line_chart(borough, year_range, template, con),
+                                        figure=line_chart(
+                                            borough, year_range, template, con
+                                        ),
                                         config={
                                             "displayModeBar": False,
                                             "staticPlot": True,
