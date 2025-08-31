@@ -56,7 +56,7 @@ def line_chart(borough, year_range):
         markers=True,
         color_discrete_sequence=px.colors.qualitative.Set1,
         line_shape="spline",
-        range_x=[2012, 2025],
+        # range_x=[2012, 2025],
         # template="darkly",
         template="flatly",
         category_orders={
@@ -82,28 +82,38 @@ def update_app(borough, year_range):
     return [
         kpi(con, borough, year_range),
         dbc.Row(
-            children=[
-                dbc.Card(
-                    children=[
-                        dbc.CardHeader(
-                            "Crashes by Borough Over Time", className="fw-bold"
-                        ),
-                        dbc.CardBody(
-                            children=[
-                                dcc.Graph(
-                                    figure=line_chart(borough, year_range),
-                                    config={
-                                        "displayModeBar": False,
-                                        "staticPlot": True,
-                                    },
-                                )
-                            ]
-                        ),
-                        dbc.CardFooter("Analysis of NYC vehicle collisions from 2012 to 2025", className="fw-bold text-black-50"),
-                    ]
-                )
-            ],
+            children=dbc.Col(
+                children=[
+                    dbc.Card(
+                        children=[
+                            dbc.CardHeader(
+                                "Crashes by Borough Over Time", className="fw-bold border-0"
+                            ),
+                            dbc.CardBody(
+                                children=[
+                                    dcc.Graph(
+                                        figure=line_chart(borough, year_range),
+                                        config={
+                                            "displayModeBar": False,
+                                            "staticPlot": True,
+                                        },
+                                    )
+                                ],
+                                className="border-0"
+                            ),
+                            dbc.CardFooter(
+                                "Yearly trends of vehicle collisions across selected boroughs",
+                                className="fw-bold border-0",
+                            ),
+                        ],
+                        className="border-0 shadow"
+                    )
+                ],
+                xs=12,
+                md=7
+            ),
             className="mt-3",
+            justify="around"
         ),
     ]
 
