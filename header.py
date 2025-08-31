@@ -58,7 +58,9 @@ def filter():
         dbc.Col(
             dbc.Card(
                 [
-                    dbc.CardHeader("Filters", className="border-0 bg-transparent"),
+                    dbc.CardHeader(
+                        "Filters", className="border-0 bg-transparent fw-bold"
+                    ),
                     dbc.CardBody(
                         dbc.Row(
                             [

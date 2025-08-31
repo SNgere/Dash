@@ -1,8 +1,9 @@
 import dash_bootstrap_components as dbc
-from dash import Dash, Input, Output, html
+from dash import Dash, Input, Output, html, dcc
 from header import header, filter
 from kpi import kpi
 import duckdb
+import plotly.express as px
 
 
 con = duckdb.connect("crashes.duckdb", read_only=True)
@@ -25,6 +26,51 @@ app.layout = (
 )
 
 
+line_query = """
+SELECT 
+    BOROUGH,
+    YEAR AS Year,
+    COUNT(*) AS total_collisions
+FROM crashes
+WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
+GROUP BY BOROUGH,YEAR
+ORDER BY BOROUGH, YEAR;
+"""
+
+
+def line_chart(borough, year_range):
+    start_year, end_year = year_range
+
+    if not borough:
+        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+
+    params = (borough, start_year, end_year)
+
+    linedf = con.execute(line_query, parameters=params).df()
+
+    fig = px.line(
+        linedf,
+        x="Year",
+        y="total_collisions",
+        color="BOROUGH",
+        markers=True,
+        color_discrete_sequence=px.colors.qualitative.Set1,
+        line_shape="spline",
+        range_x=[2012, 2025],
+        # template="darkly",
+        template="flatly",
+        category_orders={
+            "BOROUGH": ["BROOKLYN", "QUEENS", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+        },
+    ).update_layout(
+        legend=dict(orientation="h", yanchor="bottom", y=1),
+        yaxis=dict(title="Number of Collisions"),
+        legend_title=None,
+        margin=dict(t=10, b=40, l=10, r=10),
+    )
+    return fig
+
+
 @app.callback(
     Output("content", "children"),
     [
@@ -33,7 +79,33 @@ app.layout = (
     ],
 )
 def update_app(borough, year_range):
-    return kpi(con, borough, year_range)
+    return [
+        kpi(con, borough, year_range),
+        dbc.Row(
+            children=[
+                dbc.Card(
+                    children=[
+                        dbc.CardHeader(
+                            "Crashes by Borough Over Time", className="fw-bold"
+                        ),
+                        dbc.CardBody(
+                            children=[
+                                dcc.Graph(
+                                    figure=line_chart(borough, year_range),
+                                    config={
+                                        "displayModeBar": False,
+                                        "staticPlot": True,
+                                    },
+                                )
+                            ]
+                        ),
+                        dbc.CardFooter("Analysis of NYC vehicle collisions from 2012 to 2025", className="fw-bold text-black-50"),
+                    ]
+                )
+            ],
+            className="mt-3",
+        ),
+    ]
 
 
 if __name__ == "__main__":
