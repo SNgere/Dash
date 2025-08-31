@@ -51,7 +51,7 @@ ORDER BY Count DESC
  """
 
 
-def line_chart(con, borough, year_range):
+def line_chart(borough, year_range, template, con):
     start_year, end_year = year_range
 
     if not borough:
@@ -71,7 +71,7 @@ def line_chart(con, borough, year_range):
         line_shape="spline",
         # range_x=[2012, 2025],
         # template="darkly",
-        template="flatly",
+        template=template,
         category_orders={
             "BOROUGH": ["BROOKLYN", "QUEENS", "MANHATTAN", "BRONX", "STATEN ISLAND"]
         },
@@ -114,7 +114,7 @@ def word_cloud_func(con, borough, year_range):
     return f"data:image/png;base64,{img_base64}"
 
 
-def row(con, borough, year_range):
+def row(borough, year_range, template, con):
     return dbc.Row(
         children=[
             dbc.Col(
@@ -128,7 +128,7 @@ def row(con, borough, year_range):
                             dbc.CardBody(
                                 children=[
                                     dcc.Graph(
-                                        figure=line_chart(con, borough, year_range),
+                                        figure=line_chart(borough, year_range, template, con),
                                         config={
                                             "displayModeBar": False,
                                             "staticPlot": True,

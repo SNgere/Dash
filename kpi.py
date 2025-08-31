@@ -11,7 +11,7 @@ kpi_query = """
 """
 
 
-def kpi(con, borough, year_range):
+def kpi(borough, year_range, template, con):
     start_year, end_year = year_range
 
     if not borough:

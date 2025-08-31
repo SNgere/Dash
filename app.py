@@ -4,6 +4,7 @@ from header import header, filter
 from kpi import kpi
 import duckdb
 from line_word import row
+from dash_bootstrap_templates import ThemeSwitchAIO
 
 
 con = duckdb.connect("crashes.duckdb", read_only=True)
@@ -31,10 +32,12 @@ app.layout = (
     [
         Input("borough-checklist", "value"),
         Input("year-range", "value"),
+        Input(ThemeSwitchAIO.ids.switch("theme"), "value"),
     ],
 )
-def update_app(borough, year_range):
-    return [kpi(con, borough, year_range), row(con, borough, year_range)]
+def update_app(borough, year_range, toggle):
+    template="flatly" if toggle else "darkly"
+    return [kpi(borough, year_range, template, con), row(borough, year_range,template,con)]
 
 
 if __name__ == "__main__":
