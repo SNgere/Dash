@@ -11,7 +11,7 @@ def header():
         children=[
             dbc.Col(
                 children=[
-                    html.H1(
+                    html.H2(
                         "NYC Motor Vehicles Crashes Dashboard",
                         className="text-center text-decoration-none",
                     ),
