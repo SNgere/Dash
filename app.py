@@ -1,7 +1,11 @@
 import dash_bootstrap_components as dbc
-from dash import Dash
+from dash import Dash, Input, Output, html
 from header import header, filter
 from kpi import kpi
+import duckdb
+
+
+con = duckdb.connect("crashes.duckdb", read_only=True)
 
 app = Dash(
     external_stylesheets=[dbc.themes.DARKLY],
@@ -15,14 +19,21 @@ app.title = "NYC Vehicle Collisions Analysis"
 
 app.layout = (
     dbc.Container(
-        children=[
-            header(),
-            filter(),
-            kpi(),
-        ],
+        children=[header(), filter(), html.Div(id="content")],
         fluid=True,
     ),
 )
+
+
+@app.callback(
+    Output("content", "children"),
+    [
+        Input("borough-checklist", "value"),
+        Input("year-range", "value"),
+    ],
+)
+def update_app(borough, year_range):
+    return kpi(con, borough, year_range)
 
 
 if __name__ == "__main__":

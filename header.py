@@ -91,13 +91,13 @@ def filter():
                                 dbc.Col(
                                     dcc.RangeSlider(
                                         id="year-range",
-                                        min=2018,
+                                        min=2012,
                                         max=2026,
                                         step=1,
-                                        value=[2018, 2026],
+                                        value=[2012, 2026],
                                         marks={
                                             year: str(year) if year % 2 == 0 else ""
-                                            for year in range(2018, 2027)
+                                            for year in range(2012, 2027)
                                         },
                                         tooltip={
                                             "placement": "bottom",

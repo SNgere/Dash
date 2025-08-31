@@ -1,21 +1,28 @@
-import duckdb
 import dash_bootstrap_components as dbc
 from dash import html
 
-con = duckdb.connect("crashes.duckdb", read_only=True)
-
-kpi_query = con.execute("""
+kpi_query = """
     SELECT 
         COUNT(*) AS total_collisions, 
         SUM(PERSONS_KILLED) AS persons_killed, 
         SUM(PERSONS_INJURED) AS persons_injured
     FROM crashes
-""").fetchone()
+    WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?                       
+"""
 
-total_crashes, persons_killed, persons_injured = map(int, kpi_query)
 
+def kpi(con, borough, year_range):
+    start_year, end_year = year_range
 
-def kpi():
+    if not borough:
+        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+
+    params = (borough, start_year, end_year)
+
+    total_crashes, persons_killed, persons_injured = map(
+        int, con.execute(kpi_query, parameters=params).fetchone()
+    )
+
     return dbc.Row(
         children=[
             dbc.Col(
