@@ -13,7 +13,7 @@ def header():
                 children=[
                     html.H2(
                         "NYC Motor Vehicles Crashes Dashboard",
-                        className="text-center text-decoration-none",
+                        className="text-center text-decoration-none mb-0",
                     ),
                     html.P(
                         "Real-time analysis of traffic incidents across New York City",
@@ -23,10 +23,10 @@ def header():
                         children=[
                             html.Span(
                                 children="Last Updated: June 22 2025",
-                                className="badge bg-info",
+                                className="badge bg-info mb-0",
                             ),
                         ],
-                        className=" d-block text-center blockquote",
+                        className=" d-block text-center blockquote mb-0",
                     ),
                 ],
                 width={"size": 10},
