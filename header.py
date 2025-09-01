@@ -17,12 +17,12 @@ def header():
                     ),
                     html.P(
                         "Real-time analysis of traffic incidents across New York City",
-                        className="text-center font-weight-bolder",
+                        className="text-center font-weight-bolder mb-0",
                     ),
                     html.Small(
                         children=[
                             html.Span(
-                                children="Last Updated: June 22 2025",
+                                children="Last Updated: Aug 25 2025",
                                 className="badge bg-info mb-0",
                             ),
                         ],

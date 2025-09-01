@@ -60,14 +60,11 @@ WHERE BOROUGH IN ? AND YEAR = 2025
 """
 
 
-
-def map(borough, year_range, template, con):
-    start_year, end_year = year_range
-
+def map(borough, template, con):
     if not borough:
         borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
 
-    params = (borough, start_year, end_year)
+    params = (borough,)
 
     mapdf = con.execute(map_query, parameters=params).df()
 
@@ -80,11 +77,11 @@ def map(borough, year_range, template, con):
             center={"lat": 40.7128, "lon": -74.0060},  # Center on NYC
             # size='NUMBER OF PERSONS KILLED',
             # size_max=15,
-            zoom=9.5,
-            # height=700,
+            zoom=9,
+            height=700,
             # title="NYC Traffic Collisions by Borough",
             template=template,
-            map_style="carto-positron",  #'carto-positron', #'open-street-map',  #'carto-positron',
+            map_style="open-street-map",  #'carto-positron', #'open-street-map',  #'carto-positron',
             color_discrete_sequence=px.colors.qualitative.Prism,
             # color_discrete_sequence=px.colors.qualitative.Antique,
             hover_data=[
@@ -99,7 +96,7 @@ def map(borough, year_range, template, con):
             cluster=dict(enabled=True, step=50, size=20), marker=dict(size=20)
         )
         .update_layout(
-            margin=dict(b=20, l=10, r=10),
+            margin=dict(b=20, l=10, r=10, t=10),
             # showlegend=False,
             legend=dict(orientation="h", y=1, yanchor="bottom"),
             legend_title=None,
@@ -115,13 +112,13 @@ def row3(borough, year_range, template, con):
                     dbc.Card(
                         children=[
                             dbc.CardHeader(
-                                "Crashes by Borough Over Time",
+                                "Geographic Distribution of Crashes (2025 Only)",
                                 className="fw-bold border-0",
                             ),
                             dbc.CardBody(
                                 children=[
                                     dcc.Graph(
-                                        figure=map(borough, year_range, template, con),
+                                        figure=map(borough, template, con),
                                         config={
                                             "displayModeBar": False,
                                             "staticPlot": False,
@@ -129,6 +126,10 @@ def row3(borough, year_range, template, con):
                                     )
                                 ],
                                 className="border-0",
+                            ),
+                            dbc.CardFooter(
+                                "Tip: You can switch layers on and off by clicking items in the legend",
+                                className="fw-bold border-0 text-center font-italic",
                             ),
                         ],
                         className="border-0 shadow-lg",
