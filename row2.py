@@ -13,7 +13,7 @@ GROUP BY BOROUGH,YEAR
 ORDER BY BOROUGH, YEAR;
 """
 
-bar_query ="""
+bar_query = """
 WITH all_vehicles AS (
     SELECT BOROUGH, Year, "VEHICLE TYPE CODE 1" AS Vehicles
     FROM crashes
@@ -44,7 +44,6 @@ GROUP BY Vehicles
 ORDER BY count DESC
 LIMIT 6;
 """
-
 
 
 def line_chart(borough, year_range, template, con):
@@ -106,7 +105,6 @@ def bar_plot(borough, year_range, template, con):
         yaxis=dict(title="Number of Collisions"),
     )
     return fig_bar
-
 
 
 def row2(borough, year_range, template, con):

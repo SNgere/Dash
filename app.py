@@ -5,6 +5,7 @@ from kpi import kpi
 import duckdb
 from row1 import row
 from row2 import row2
+from row3 import row3
 from dash_bootstrap_templates import ThemeSwitchAIO
 
 
@@ -42,6 +43,7 @@ def update_app(borough, year_range, toggle):
         kpi(borough, year_range, template, con),
         row(borough, year_range, template, con),
         row2(borough, year_range, template, con),
+        row3(borough, year_range, template, con),
     ]
 
 
