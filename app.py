@@ -3,7 +3,7 @@ from dash import Dash, Input, Output, html, dcc
 from header import header, filter
 from kpi import kpi
 import duckdb
-from line_word import row
+from row1 import row
 from dash_bootstrap_templates import ThemeSwitchAIO
 import plotly.express as px
 
@@ -206,3 +206,6 @@ def update_app(borough, year_range, toggle):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# Line chart showing the number of crashes by borough over time

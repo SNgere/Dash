@@ -16,6 +16,53 @@ GROUP BY BOROUGH,YEAR
 ORDER BY BOROUGH, YEAR;
 """
 
+time_query = """
+SELECT 
+    (HOUR+1) AS HOUR,
+    COUNT(*) AS counts
+FROM crashes
+WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
+GROUP BY HOUR
+ORDER BY HOUR
+"""
+
+bar_query = """
+    SELECT 
+        WEEKDAY, 
+        COUNT(WEEKDAY) AS counts
+    FROM crashes
+    WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
+    GROUP BY WEEKDAY
+    ORDER BY counts ASC;
+ """
+
+
+def bar_chart(borough, year_range, template, con):
+    start_year, end_year = year_range
+
+    if not borough:
+        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+
+    params = (borough, start_year, end_year)
+
+    bardf = con.execute(bar_query, parameters=params).df()
+
+    fig = px.bar(
+        bardf,
+        x="counts",
+        y="WEEKDAY",
+        color="counts",
+        template=template,
+        color_continuous_scale="YlOrRd",
+    ).update_layout(
+        coloraxis_showscale=False,
+        margin=dict(t=10, b=10, l=10, r=10),
+        xaxis=dict(title="Number of Collisions"),
+        yaxis=dict(title="Day of Week"),
+    )
+
+    return fig
+
 
 word_query = """
     WITH factors AS (
@@ -84,11 +131,52 @@ def line_chart(borough, year_range, template, con):
     return fig
 
 
+def time_chart(borough, year_range, template, con):
+    start_year, end_year = year_range
+
+    if not borough:
+        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+
+    params = (borough, start_year, end_year)
+
+    df = con.execute(time_query, parameters=params).df()
+    df["theta_deg"] = df["HOUR"] * (360 / 24)
+    df["label"] = df["HOUR"].apply(lambda h: f"{int(h):02d}:00")
+
+    fig = px.bar_polar(
+        df,
+        r="counts",
+        theta="theta_deg",
+        color="counts",
+        template=template,
+        # color_continuous_scale=px.colors.sequential.Plasma_r,
+        color_continuous_scale="YlOrRd",
+        hover_name="label",
+        hover_data=["counts"],
+    ).update_layout(
+        coloraxis_showscale=False,
+        margin=dict(t=20, b=20, l=35, r=35),
+        polar=dict(
+            radialaxis=dict(showticklabels=False, ticks=""),
+            angularaxis=dict(
+                direction="clockwise",
+                rotation=90,
+                tickmode="array",
+                tickvals=[h * 15 for h in range(0, 24, 1)],
+                ticktext=[f"{h:02d}:00" for h in range(0, 24, 1)],
+            ),
+        ),
+        showlegend=False,
+    )
+
+    return fig
+
+
 def word_cloud_plot(worddf):
     word_dict = dict(zip(worddf["Word"], worddf["Count"]))
     wordcloud = WordCloud(
         width=1200,
-        height=600,
+        height=700,
         background_color=None,
         mode="RGBA",
         colormap="Set1",
@@ -122,13 +210,13 @@ def row(borough, year_range, template, con):
                     dbc.Card(
                         children=[
                             dbc.CardHeader(
-                                "Crashes by Borough Over Time",
+                                "Crash Frequency by Time of Day",
                                 className="fw-bold border-0",
                             ),
                             dbc.CardBody(
                                 children=[
                                     dcc.Graph(
-                                        figure=line_chart(
+                                        figure=time_chart(
                                             borough, year_range, template, con
                                         ),
                                         config={
@@ -139,16 +227,41 @@ def row(borough, year_range, template, con):
                                 ],
                                 className="border-0",
                             ),
-                            dbc.CardFooter(
-                                "Line chart showing the number of crashes by borough over time",
+                        ],
+                        className="border-0 shadow-lg",
+                    )
+                ],
+                xs=12,
+                md=4,
+            ),
+            dbc.Col(
+                children=[
+                    dbc.Card(
+                        children=[
+                            dbc.CardHeader(
+                                "Crash Frequency by Day of Week",
                                 className="fw-bold border-0",
+                            ),
+                            dbc.CardBody(
+                                children=[
+                                    dcc.Graph(
+                                        figure=bar_chart(
+                                            borough, year_range, template, con
+                                        ),
+                                        config={
+                                            "displayModeBar": False,
+                                            "staticPlot": True,
+                                        },
+                                    )
+                                ],
+                                className="border-0",
                             ),
                         ],
                         className="border-0 shadow-lg",
                     )
                 ],
                 xs=12,
-                md=6,
+                md=3,
             ),
             dbc.Col(
                 children=[
@@ -172,9 +285,9 @@ def row(borough, year_range, template, con):
                 ],
                 className="align-content-center",
                 xs=12,
-                md=6,
+                md=5,
             ),
         ],
-        className="mt-3 gy-3",
-        # justify="around",
+        className="mt-1 gy-3",
+        justify="around",
     )
