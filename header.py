@@ -6,6 +6,55 @@ from dash import dcc
 icons = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 
+def header2():
+    return html.Section(
+        children=[
+            html.Div(
+                children=[
+                    ThemeSwitchAIO(
+                        aio_id="theme",
+                        themes=[
+                            dbc.themes.FLATLY,
+                            dbc.themes.DARKLY,
+                        ],
+                        switch_props={"persistence": True},
+                        icons={
+                            "left": "fa fa-moon",
+                            "right": "fa fa-sun text-warning",
+                        },
+                    ),
+                ],
+                className="flex justify-end",
+            ),
+            html.Div(
+                children=[
+                    html.H2(
+                        "NYC Motor Vehicles Crashes Dashboard",
+                        className="text-3xl md:text-3xl lg:text-4xl font-bold",
+                    ),
+                    html.P(
+                        "Real-time analysis of traffic incidents across New York City",
+                        className="font-extrabold mb-2",
+                    ),
+                    html.Small(
+                        children=[
+                            html.I(
+                                className="fa-solid fa-arrows-rotate fa-1x",
+                            ),
+                            html.Span(
+                                children="Last Updated: Aug 25 2025",
+                                className="pl-1",
+                            ),
+                        ],
+                        className="flex-grow-0 bg-yellow-300 text-black font-light p-2 rounded-md font-[serif]",
+                    ),
+                ],
+                className="text-center",
+            ),
+        ]
+    )
+
+
 def header():
     return dbc.Row(
         children=[
@@ -45,10 +94,10 @@ def header():
                         },
                     ),
                 ],
-                width={"size": 2},
+                className="d-flex justify-content-end mt-1 mb-0",
             ),
         ],
-        className="mt-3",
+        className="flex flex-col-reverse gap-3",
     )
 
 

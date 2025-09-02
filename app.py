@@ -1,6 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import Dash, Input, Output, html
-from header import header, filter
+from header import header2, filter, header
 from kpi import kpi
 import duckdb
 from row1 import row
@@ -8,15 +8,14 @@ from row2 import row2
 from row3 import row3
 from dash_bootstrap_templates import ThemeSwitchAIO
 
-external_scripts = [
-    {'src': 'https://cdn.tailwindcss.com'}
-]
+external_scripts = [{"src": "https://cdn.tailwindcss.com"}]
+icons = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 
 con = duckdb.connect("crashes.duckdb", read_only=True)
 
 app = Dash(
-    external_stylesheets=[dbc.themes.DARKLY],
+    external_stylesheets=[dbc.themes.DARKLY, icons],
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
     ],
@@ -28,7 +27,7 @@ app.title = "NYC Vehicle Collisions Analysis"
 
 app.layout = (
     dbc.Container(
-        children=[header(), filter(), html.Div(id="content")],
+        children=[header2(), filter(), html.Div(id="content")],
         fluid=True,
     ),
 )
