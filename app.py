@@ -1,6 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import Dash, Input, Output, html
-from header import header2, filter, header
+from header import header, filter, filter2
 from kpi import kpi
 import duckdb
 from row1 import row
@@ -27,7 +27,7 @@ app.title = "NYC Vehicle Collisions Analysis"
 
 app.layout = (
     dbc.Container(
-        children=[header2(), filter(), html.Div(id="content")],
+        children=[header(), filter2(), html.Div(id="content")],
         fluid=True,
     ),
 )

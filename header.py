@@ -6,7 +6,7 @@ from dash import dcc
 icons = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 
-def header2():
+def header():
     return html.Section(
         children=[
             html.Div(
@@ -55,49 +55,60 @@ def header2():
     )
 
 
-def header():
-    return dbc.Row(
+def filter2():
+    return html.Section(
         children=[
-            dbc.Col(
+            html.H3("Filters", className="font-bold underline underline-offset-2"),
+            html.Div(
                 children=[
-                    html.H2(
-                        "NYC Motor Vehicles Crashes Dashboard",
-                        className="text-center text-3xl md:text-3xl lg:text-4xl font-bold",
-                    ),
-                    html.P(
-                        "Real-time analysis of traffic incidents across New York City",
-                        className="text-center font-weight-bolder mb-0",
-                    ),
-                    html.Small(
-                        children=[
-                            html.Span(
-                                children="Last Updated: Aug 25 2025",
-                                className="badge bg-info mb-0",
-                            ),
+                    dbc.Checklist(
+                        id="borough-checklist",
+                        options=[
+                            {"label": b, "value": b.upper()}
+                            for b in [
+                                "Queens",
+                                "Brooklyn",
+                                "Manhattan",
+                                "Bronx",
+                                "Staten Island",
+                            ]
                         ],
-                        className=" d-block text-center blockquote mb-0",
-                    ),
-                ],
-            ),
-            dbc.Col(
-                children=[
-                    ThemeSwitchAIO(
-                        aio_id="theme",
-                        themes=[
-                            dbc.themes.FLATLY,
-                            dbc.themes.DARKLY,
+                        value=[
+                            "QUEENS",
+                            "BROOKLYN",
+                            "MANHATTAN",
+                            "BRONX",
+                            "STATEN ISLAND",
                         ],
-                        switch_props={"persistence": True},
-                        icons={
-                            "left": "fa fa-moon",
-                            "right": "fa fa-sun text-warning",
+                        inline=True,
+                        switch=True,
+                        className="flex flex-wrap justify-center"
+                    ),
+                    dcc.RangeSlider(
+                        id="year-range",
+                        min=2012,
+                        max=2026,
+                        step=1,
+                        value=[2012, 2026],
+                        marks={
+                            year: str(year) if year % 2 == 0 else ""
+                            for year in range(2012, 2027)
                         },
+                        tooltip={
+                            "placement": "bottom",
+                            "always_visible": True,
+                            "style": {"color": "white"},
+                        },
+                        allowCross=False,
+                        updatemode="mouseup",
+                        pushable=1,
+                        included=True,
                     ),
                 ],
-                className="d-flex justify-content-end mt-1 mb-0",
+                className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-1 items-center mt-2"
             ),
         ],
-        className="flex flex-col-reverse gap-3",
+        className="mx-auto max-w-7xl py-4"
     )
 
 
