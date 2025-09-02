@@ -8,6 +8,10 @@ from row2 import row2
 from row3 import row3
 from dash_bootstrap_templates import ThemeSwitchAIO
 
+external_scripts = [
+    {'src': 'https://cdn.tailwindcss.com'}
+]
+
 
 con = duckdb.connect("crashes.duckdb", read_only=True)
 
@@ -16,6 +20,7 @@ app = Dash(
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
     ],
+    external_scripts=external_scripts,
 )
 
 app.title = "NYC Vehicle Collisions Analysis"
