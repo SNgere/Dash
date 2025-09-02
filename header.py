@@ -13,7 +13,7 @@ def header():
                 children=[
                     html.H2(
                         "NYC Motor Vehicles Crashes Dashboard",
-                        className="text-center text-decoration-none mb-0",
+                        className="text-center text-3xl md:text-3xl lg:text-4xl font-bold",
                     ),
                     html.P(
                         "Real-time analysis of traffic incidents across New York City",
@@ -29,7 +29,6 @@ def header():
                         className=" d-block text-center blockquote mb-0",
                     ),
                 ],
-                width={"size": 10},
             ),
             dbc.Col(
                 children=[
