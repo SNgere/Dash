@@ -1,5 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import dcc
+from dash import dcc, html
 import plotly.express as px
 from wordcloud import WordCloud
 from io import BytesIO
@@ -175,8 +175,8 @@ def time_chart(borough, year_range, template, con):
 def word_cloud_plot(worddf):
     word_dict = dict(zip(worddf["Word"], worddf["Count"]))
     wordcloud = WordCloud(
-        width=1200,
-        height=700,
+        # width=1200,
+        # height=700,
         background_color=None,
         mode="RGBA",
         colormap="Set1",
@@ -203,11 +203,11 @@ def word_cloud_func(con, borough, year_range):
 
 
 def row(borough, year_range, template, con):
-    return dbc.Row(
+    return html.Section(
         children=[
-            dbc.Col(
+            html.Div(
                 children=[
-                    dbc.Card(
+                    html.Div(
                         children=[
                             dbc.CardHeader(
                                 "Crash Frequency by Time of Day",
@@ -228,15 +228,9 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg",
-                    )
-                ],
-                xs=12,
-                md=4,
-            ),
-            dbc.Col(
-                children=[
-                    dbc.Card(
+                        className="border-0 shadow-lg p-2",
+                    ),
+                    html.Div(
                         children=[
                             dbc.CardHeader(
                                 "Crash Frequency by Day of Week",
@@ -257,15 +251,9 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg",
-                    )
-                ],
-                xs=12,
-                md=3,
-            ),
-            dbc.Col(
-                children=[
-                    dbc.Card(
+                        className="border-0 shadow-lg p-2",
+                    ),
+                    html.Div(
                         children=[
                             dbc.CardHeader(
                                 "Contributing Factors Analysis",
@@ -280,14 +268,10 @@ def row(borough, year_range, template, con):
                                 className="fw-bold border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg",
-                    )
+                        className="border-0 shadow-lg p-2 col-span-2",
+                    ),
                 ],
-                className="align-content-center",
-                xs=12,
-                md=5,
             ),
         ],
-        className="mt-1 gy-3",
-        justify="around",
+        className="grid grid-cols-1 lg:grid-cols-4 gap-2"
     )

@@ -23,67 +23,61 @@ def kpi(borough, year_range, template, con):
         int, con.execute(kpi_query, parameters=params).fetchone()
     )
 
-    return dbc.Row(
+    return html.Section(
         children=[
-            dbc.Col(
-                dbc.Card(
-                    children=[
-                        dbc.CardBody(
-                            html.H4(f"{total_crashes:,}"),
-                            className="p-1 text-center text-nowrap",
-                        ),
-                        dbc.CardFooter(
-                            html.Small("Total Crashes"),
-                            className="text-nowrap",
-                        ),
-                    ],
-                    color="danger",
-                    outline=True,
-                    class_name="shadow-lg",
-                ),
-                className="flex-grow-0",
-                xs=4,
-                md=1,
-            ),
-            dbc.Col(
-                dbc.Card(
-                    children=[
-                        dbc.CardBody(
-                            html.H4(f"{persons_injured:,}"), className="p-1 text-center"
-                        ),
-                        dbc.CardFooter(
-                            html.Small("Total Injured"),
-                            className="text-nowrap",
-                        ),
-                    ],
-                    color="danger",
-                    outline=True,
-                    class_name="shadow-lg",
-                ),
-                className="flex-grow-0",
-                xs=4,
-                md=1,
-            ),
-            dbc.Col(
-                dbc.Card(
-                    children=[
-                        dbc.CardBody(
-                            html.H4(f"{persons_killed:,}"), className="p-1 text-center"
-                        ),
-                        dbc.CardFooter(
-                            html.Small("Total Killed"),
-                            className="text-nowrap",
-                        ),
-                    ],
-                    color="danger",
-                    outline=True,
-                    class_name="shadow-lg",
-                ),
-                className="flex-grow-0",
-                xs=4,
-                md=1,
+            html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            html.Div(
+                                children=[
+                                    html.Small(
+                                        "Total Crashes", className="text-gray-500"
+                                    ),
+                                    html.H2(
+                                        f"{total_crashes:,}",
+                                        className="text-blue-700 font-extrabold text-lg md:text-xl lg:text-2xl",
+                                    ),
+                                ]
+                            ),
+                        ],
+                        className="sp-4",
+                    ),
+                    html.Div(
+                        children=[
+                            html.Div(
+                                children=[
+                                    html.Small(
+                                        "Total Injured", className="text-gray-500"
+                                    ),
+                                    html.H2(
+                                        f"{persons_injured:,}",
+                                        className="text-green-700 font-extrabold text-lg md:text-xl lg:text-2xl",
+                                    ),
+                                ]
+                            ),
+                        ],
+                        className="p-4",
+                    ),
+                    html.Div(
+                        children=[
+                            html.Div(
+                                children=[
+                                    html.Small(
+                                        "Total Killed", className="text-gray-500"
+                                    ),
+                                    html.H2(
+                                        f"{persons_killed:,}",
+                                        "text-red-700 font-extrabold text-lg md:text-xl lg:text-2xl",
+                                    ),
+                                ]
+                            )
+                        ],
+                        className="p-4",
+                    ),
+                ],
+                className="grid grid-cols-3 gap-3 text-center",
             ),
         ],
-        className="mt-3",
-        justify="center",
+        className="mx-auto max-w-4xl p-4 lg:p-8",
     )

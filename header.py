@@ -55,7 +55,7 @@ def header():
     )
 
 
-def filter2():
+def filter():
     return html.Section(
         children=[
             html.H3("Filters", className="font-bold underline underline-offset-2"),
@@ -82,7 +82,7 @@ def filter2():
                         ],
                         inline=True,
                         switch=True,
-                        className="flex flex-wrap justify-center"
+                        className="flex flex-wrap justify-center",
                     ),
                     dcc.RangeSlider(
                         id="year-range",
@@ -105,83 +105,8 @@ def filter2():
                         included=True,
                     ),
                 ],
-                className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-1 items-center mt-2"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-1 items-center mt-2",
             ),
         ],
-        className="mx-auto max-w-7xl py-4"
-    )
-
-
-def filter():
-    return dbc.Row(
-        dbc.Col(
-            dbc.Card(
-                [
-                    dbc.CardHeader(
-                        "Filters", className="border-0 bg-transparent fw-bold"
-                    ),
-                    dbc.CardBody(
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dbc.Checklist(
-                                        id="borough-checklist",
-                                        options=[
-                                            {"label": b, "value": b.upper()}
-                                            for b in [
-                                                "Queens",
-                                                "Brooklyn",
-                                                "Manhattan",
-                                                "Bronx",
-                                                "Staten Island",
-                                            ]
-                                        ],
-                                        value=[
-                                            "QUEENS",
-                                            "BROOKLYN",
-                                            "MANHATTAN",
-                                            "BRONX",
-                                            "STATEN ISLAND",
-                                        ],
-                                        inline=True,
-                                        switch=True,
-                                    ),
-                                    md=6,
-                                    xs=12,
-                                ),
-                                dbc.Col(
-                                    dcc.RangeSlider(
-                                        id="year-range",
-                                        min=2012,
-                                        max=2026,
-                                        step=1,
-                                        value=[2012, 2026],
-                                        marks={
-                                            year: str(year) if year % 2 == 0 else ""
-                                            for year in range(2012, 2027)
-                                        },
-                                        tooltip={
-                                            "placement": "bottom",
-                                            "always_visible": True,
-                                            "style": {"color": "white"},
-                                        },
-                                        allowCross=False,
-                                        updatemode="mouseup",
-                                        pushable=1,
-                                        included=True,
-                                    ),
-                                    md=6,
-                                    xs=12,
-                                ),
-                            ],
-                            className="gy-2",
-                        )
-                    ),
-                ],
-                className="border-0 bg-transparent",
-            ),
-            width=10,
-        ),
-        justify="center",
-        className="shadow-sm",
+        className="mx-auto max-w-7xl py-4",
     )
