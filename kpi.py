@@ -11,6 +11,19 @@ kpi_query = """
 """
 
 
+def kpi_card(label, value, color):
+    return html.Div(
+        [
+            html.Small(label, className="text-gray-500 text-sm font-semibold"),
+            html.H2(
+                f"{value:,}",
+                className=f"text-{color}-700 font-extrabold text-lg md:text-xl lg:text-2xl",
+            ),
+        ],
+        className="border rounded-xl shadow-lg",
+    )
+
+
 def kpi(borough, year_range, template, con):
     start_year, end_year = year_range
 
@@ -24,60 +37,15 @@ def kpi(borough, year_range, template, con):
     )
 
     return html.Section(
-        children=[
-            html.Div(
-                children=[
-                    html.Div(
-                        children=[
-                            html.Div(
-                                children=[
-                                    html.Small(
-                                        "Total Crashes", className="text-gray-500"
-                                    ),
-                                    html.H2(
-                                        f"{total_crashes:,}",
-                                        className="text-blue-700 font-extrabold text-lg md:text-xl lg:text-2xl",
-                                    ),
-                                ]
-                            ),
-                        ],
-                        className="sp-4",
-                    ),
-                    html.Div(
-                        children=[
-                            html.Div(
-                                children=[
-                                    html.Small(
-                                        "Total Injured", className="text-gray-500"
-                                    ),
-                                    html.H2(
-                                        f"{persons_injured:,}",
-                                        className="text-green-700 font-extrabold text-lg md:text-xl lg:text-2xl",
-                                    ),
-                                ]
-                            ),
-                        ],
-                        className="p-4",
-                    ),
-                    html.Div(
-                        children=[
-                            html.Div(
-                                children=[
-                                    html.Small(
-                                        "Total Killed", className="text-gray-500"
-                                    ),
-                                    html.H2(
-                                        f"{persons_killed:,}",
-                                        "text-red-700 font-extrabold text-lg md:text-xl lg:text-2xl",
-                                    ),
-                                ]
-                            )
-                        ],
-                        className="p-4",
-                    ),
-                ],
-                className="grid grid-cols-3 gap-3 text-center",
-            ),
-        ],
-        className="mx-auto max-w-4xl p-4 lg:p-8",
-    )
+    [
+        html.Div(
+            [
+                kpi_card("Total Crashes", total_crashes, "blue"),
+                kpi_card("Total Injured", persons_injured, "green"),
+                kpi_card("Total Killed", persons_killed, "red"),
+            ],
+            className="grid grid-cols-3 gap-3 text-center",
+        )
+    ],
+    className="mx-auto max-w-3xl mt-3",
+)

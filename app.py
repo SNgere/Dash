@@ -43,8 +43,8 @@ app.layout = (
 def update_app(borough, year_range, toggle):
     template = "flatly" if toggle else "darkly"
     return [
-        # kpi(borough, year_range, template, con),
-        row(borough, year_range, template, con),
+        kpi(borough, year_range, template, con),
+        # row(borough, year_range, template, con),
         # row2(borough, year_range, template, con),
         # row3(borough, year_range, template, con),
     ]
