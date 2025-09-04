@@ -14,13 +14,13 @@ kpi_query = """
 def kpi_card(label, value, color):
     return html.Div(
         [
-            html.Small(label, className="text-gray-500 text-sm font-semibold"),
+            html.Small(label, className="text-gray-500 text-[.9em] font-bold"),
             html.H2(
                 f"{value:,}",
-                className=f"text-{color}-700 font-extrabold text-lg md:text-xl lg:text-2xl",
+                className=f"text-{color}-700 font-extrabold text-md md:text-lg lg:text-xl",
             ),
         ],
-        className="border rounded-xl shadow-lg",
+        className="border rounded-xl shadow-lg p-3 w-[30vw] text-center",
     )
 
 
@@ -37,15 +37,15 @@ def kpi(borough, year_range, template, con):
     )
 
     return html.Section(
-    [
-        html.Div(
-            [
-                kpi_card("Total Crashes", total_crashes, "blue"),
-                kpi_card("Total Injured", persons_injured, "green"),
-                kpi_card("Total Killed", persons_killed, "red"),
-            ],
-            className="grid grid-cols-3 gap-3 text-center",
-        )
-    ],
-    className="mx-auto max-w-3xl mt-3",
-)
+        [
+            html.Div(
+                [
+                    kpi_card("Total Crashes", total_crashes, "blue"),
+                    kpi_card("Total Injured", persons_injured, "green"),
+                    kpi_card("Total Killed", persons_killed, "red"),
+                ],
+                className="flex justify-center gap-3 text-center",
+            )
+        ],
+        className="mx-auto max-w-3xl mt-3",
+    )

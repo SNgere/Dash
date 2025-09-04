@@ -175,8 +175,8 @@ def time_chart(borough, year_range, template, con):
 def word_cloud_plot(worddf):
     word_dict = dict(zip(worddf["Word"], worddf["Count"]))
     wordcloud = WordCloud(
-        # width=1200,
-        # height=700,
+        width=1200,
+        height=1200,
         background_color=None,
         mode="RGBA",
         colormap="Set1",
@@ -209,11 +209,11 @@ def row(borough, year_range, template, con):
                 children=[
                     html.Div(
                         children=[
-                            dbc.CardHeader(
+                            html.H2(
                                 "Crash Frequency by Time of Day",
-                                className="fw-bold border-0",
+                                className="fw-bold mb-2",
                             ),
-                            dbc.CardBody(
+                            html.Div(
                                 children=[
                                     dcc.Graph(
                                         figure=time_chart(
@@ -232,11 +232,11 @@ def row(borough, year_range, template, con):
                     ),
                     html.Div(
                         children=[
-                            dbc.CardHeader(
+                            html.H2(
                                 "Crash Frequency by Day of Week",
                                 className="fw-bold border-0",
                             ),
-                            dbc.CardBody(
+                            html.Div(
                                 children=[
                                     dcc.Graph(
                                         figure=bar_chart(
@@ -255,23 +255,23 @@ def row(borough, year_range, template, con):
                     ),
                     html.Div(
                         children=[
-                            dbc.CardHeader(
+                            html.H2(
                                 "Contributing Factors Analysis",
                                 className="fw-bold border-0",
                             ),
-                            dbc.CardImg(
+                            html.Img(
                                 src=word_cloud_func(con, borough, year_range),
                                 className="border-0",
                             ),
-                            dbc.CardFooter(
+                            html.Footer(
                                 "Analysis of the most common contributing factors in vehicle crashes",
                                 className="fw-bold border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg p-2 col-span-2",
+                        className="border-0 shadow-lg p-2",
                     ),
                 ],
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3",
             ),
         ],
-        className="grid grid-cols-1 lg:grid-cols-4 gap-2"
     )
