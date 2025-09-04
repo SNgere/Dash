@@ -25,6 +25,8 @@ app = Dash(
     external_scripts=external_scripts,
 )
 
+
+
 app.title = "NYC Vehicle Collisions Analysis"
 
 
@@ -54,5 +56,5 @@ def update_app(borough, year_range, toggle):
     ]
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
