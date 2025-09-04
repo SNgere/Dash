@@ -4,6 +4,10 @@ from header import header, filter
 from kpi import kpi
 import duckdb
 from row1 import row
+from row2 import row2
+from row3 import row3
+
+
 from dash_bootstrap_templates import ThemeSwitchAIO
 
 external_scripts = [{"src": "https://cdn.tailwindcss.com"}]
@@ -41,12 +45,12 @@ app.layout = (
     ],
 )
 def update_app(borough, year_range, toggle):
-    template = "flatly" if toggle else "dark"
+    template = "flatly" if toggle else "darkly"
     return [
         kpi(borough, year_range, template, con),
         row(borough, year_range, template, con),
-        # row2(borough, year_range, template, con),
-        # row3(borough, year_range, template, con),
+        row2(borough, year_range, template, con),
+        row3(borough, year_range, template, con),
     ]
 
 

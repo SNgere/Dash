@@ -33,7 +33,7 @@ bar_query = """
     FROM crashes
     WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
     GROUP BY WEEKDAY
-    ORDER BY counts DESC;
+    ORDER BY counts ASC;
  """
 
 
@@ -49,14 +49,15 @@ def bar_chart(borough, year_range, template, con):
 
     fig = px.bar(
         bardf,
-        orientation="v",
-        y="counts",
-        x="WEEKDAY",
+        orientation="h",
+        x="counts",
+        y="WEEKDAY",
         color="counts",
         template=template,
         color_continuous_scale="YlOrRd",
     ).update_layout(
         coloraxis_showscale=False,
+        bargap=0.7,
         margin=dict(t=10, b=10, l=10, r=10),
         xaxis=dict(title="Number of Collisions"),
         yaxis=dict(title="Day of Week"),
