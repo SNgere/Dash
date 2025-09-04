@@ -211,9 +211,12 @@ def row(borough, year_range, template, con):
                 children=[
                     html.Div(
                         children=[
-                            html.H2(
-                                "Crash Frequency by Time of Day",
-                                className="fw-bold underline underline-offset-2 decoration-2 mb-2",
+                            dbc.Card(
+                                dbc.CardHeader(
+                                    "Crash Frequency by Time of Day",
+                                    className="border-0 fw-bold mb-2",
+                                ),
+                                className="border-0",
                             ),
                             html.Div(
                                 children=[
@@ -230,13 +233,16 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="shadow-md rounded-md border-[#848484] p-4",
+                        className="shadow-lg rounded-md border-[#848484] p-4",
                     ),
                     html.Div(
                         children=[
-                            html.H2(
-                                "Crash Frequency by Day of Week",
-                                className="fw-bold underline underline-offset-2 decoration-2 mb-2",
+                            dbc.Card(
+                                dbc.CardHeader(
+                                    "Crash Frequency by Day of Week",
+                                    className="border-0 fw-bold mb-2",
+                                ),
+                                className="border-0",
                             ),
                             html.Div(
                                 children=[
@@ -253,16 +259,19 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="shadow-md rounded-md border-[#848484] p-4",
+                        className="shadow-lg rounded-md border-[#848484] p-4",
                     ),
                 ],
                 className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-4",
             ),
             html.Div(
                 children=[
-                    html.H2(
-                        "Contributing Factors Analysis",
-                        className="fw-bold underline underline-offset-2 decoration-2 mb-2",
+                    dbc.Card(
+                        dbc.CardHeader(
+                            "Top Contributing Factors in NYC Vehicle Collisions",
+                            className="border-0 fw-bold mb-2",
+                        ),
+                        className="border-0",
                     ),
                     html.Div(
                         children=[
@@ -272,12 +281,8 @@ def row(borough, year_range, template, con):
                         ],
                         className="flex justify-center items-center flex-grow",
                     ),
-                    html.Footer(
-                        "Analysis of the most common contributing factors in vehicle crashes",
-                        className="fw-medium text-center pt-2 border-t",
-                    ),
                 ],
-                className="shadow-md rounded-md border p-4 mb-4 mx-auto max-w-7xl",
+                className="shadow-lg rounded-md border p-4 mb-4 mx-auto max-w-7xl",
             ),
         ],
         className="container mx-auto px-4 space-y-5",
