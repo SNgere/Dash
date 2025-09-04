@@ -1,5 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import dcc
+from dash import dcc, html
 import plotly.express as px
 
 line_query = """
@@ -108,17 +108,20 @@ def bar_plot(borough, year_range, template, con):
 
 
 def row2(borough, year_range, template, con):
-    return dbc.Row(
+    return html.Section(
         children=[
-            dbc.Col(
+            html.Div(
                 children=[
-                    dbc.Card(
+                    html.Div(
                         children=[
-                            dbc.CardHeader(
-                                "Crashes by Borough Over Time",
-                                className="fw-bold border-0",
+                            dbc.Card(
+                                dbc.CardHeader(
+                                    "Crash Frequency by Time of Day",
+                                    className="border-0 fw-bold mb-2",
+                                ),
+                                className="border-0",
                             ),
-                            dbc.CardBody(
+                            html.Div(
                                 children=[
                                     dcc.Graph(
                                         figure=line_chart(
@@ -133,21 +136,18 @@ def row2(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg",
-                    )
-                ],
-                xs=12,
-                md=6,
-            ),
-            dbc.Col(
-                children=[
-                    dbc.Card(
+                        className="shadow-lg rounded-md border-[#848484] p-2",
+                    ),
+                    html.Div(
                         children=[
-                            dbc.CardHeader(
-                                "Top vehicle types in collisions",
-                                className="fw-bold border-0",
+                            dbc.Card(
+                                dbc.CardHeader(
+                                    "Crash Frequency by Day of Week",
+                                    className="border-0 fw-bold mb-2",
+                                ),
+                                className="border-0",
                             ),
-                            dbc.CardBody(
+                            html.Div(
                                 children=[
                                     dcc.Graph(
                                         figure=bar_plot(
@@ -162,13 +162,11 @@ def row2(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg",
-                    )
+                        className="shadow-lg rounded-md border-[#848484] p-2",
+                    ),
                 ],
-                xs=12,
-                md=5,
+                className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2",
             ),
         ],
-        className="mt-1 gy-3 mb-3",
-        justify="center",
+        className="container mx-auto space-y-5 px-4",
     )
