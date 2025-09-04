@@ -1,10 +1,12 @@
 services:
-
-  ngrok:
-    image: 'ngrok/ngrok'
-    container_name: "ngrok"
-    environment:
-      - NGROK_AUTHTOKEN=2HPmCs1Mxt4xHh4hsikon7AcRfg_3CRtVZB2ggiHtE7x5FbHXf
-    command: http host.docker.internal:8050
+  dash:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: svaice/dash:v1
     ports:
-      - "4040:4040"
+      - "8050:8050"
+    container_name: "dash-app"
+    restart: unless-stopped
+    environment:
+      - MPLCONFIGDIR=/tmp/matplotlib 
