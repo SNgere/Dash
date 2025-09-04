@@ -238,7 +238,7 @@ def row(borough, year_range, template, con):
                         className="flex justify-center items-center flex-grow",
                     ),
                 ],
-                className="shadow-lg rounded-md border p-4 mb-4 mx-auto max-w-7xl",
+                className="shadow-lg rounded-md border p-4 mb-2 mx-auto max-w-7xl",
             ),
         ],
         className="container mx-auto px-4 space-y-5",

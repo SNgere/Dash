@@ -69,7 +69,7 @@ def row3(borough, year_range, template, con):
                     children=[
                         dbc.Card(
                             dbc.CardHeader(
-                                "Crash Frequency by Day of Week",
+                                "Geographic Distribution of Crashes (2025 Only)",
                                 className="border-0 fw-bold mb-2",
                             ),
                             className="border-0",
@@ -94,9 +94,9 @@ def row3(borough, year_range, template, con):
                             className="border-0 text-center",
                         ),
                     ],
-                    className="shadow-lg rounded-md border-[#848484] p-4",
                 ),
-            ]
+            ],
+            className="shadow-lg rounded-md border-[#848484] p-4",
         ),
-        className="container mx-auto space-y-5 px-4 mb-3",
+        className="container mx-auto space-y-5 m-4",
     )
