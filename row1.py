@@ -33,7 +33,7 @@ bar_query = """
     FROM crashes
     WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
     GROUP BY WEEKDAY
-    ORDER BY counts ASC;
+    ORDER BY counts DESC;
  """
 
 
@@ -49,8 +49,9 @@ def bar_chart(borough, year_range, template, con):
 
     fig = px.bar(
         bardf,
-        x="counts",
-        y="WEEKDAY",
+        orientation="v",
+        y="counts",
+        x="WEEKDAY",
         color="counts",
         template=template,
         color_continuous_scale="YlOrRd",
@@ -175,8 +176,8 @@ def time_chart(borough, year_range, template, con):
 def word_cloud_plot(worddf):
     word_dict = dict(zip(worddf["Word"], worddf["Count"]))
     wordcloud = WordCloud(
-        width=1200,
-        height=1200,
+        width=1000,
+        height=500,
         background_color=None,
         mode="RGBA",
         colormap="Set1",
@@ -211,7 +212,7 @@ def row(borough, year_range, template, con):
                         children=[
                             html.H2(
                                 "Crash Frequency by Time of Day",
-                                className="fw-bold mb-2",
+                                className="fw-bold underline underline-offset-2 decoration-2 mb-2",
                             ),
                             html.Div(
                                 children=[
@@ -228,13 +229,13 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg p-2",
+                        className="shadow-md rounded-md border-[#848484] p-4",
                     ),
                     html.Div(
                         children=[
                             html.H2(
                                 "Crash Frequency by Day of Week",
-                                className="fw-bold border-0",
+                                className="fw-bold underline underline-offset-2 decoration-2 mb-2",
                             ),
                             html.Div(
                                 children=[
@@ -251,27 +252,32 @@ def row(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="border-0 shadow-lg p-2",
+                        className="shadow-md rounded-md border-[#848484] p-4",
+                    ),
+                ],
+                className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-4",
+            ),
+            html.Div(
+                children=[
+                    html.H2(
+                        "Contributing Factors Analysis",
+                        className="fw-bold underline underline-offset-2 decoration-2 mb-2",
                     ),
                     html.Div(
                         children=[
-                            html.H2(
-                                "Contributing Factors Analysis",
-                                className="fw-bold border-0",
-                            ),
                             html.Img(
                                 src=word_cloud_func(con, borough, year_range),
-                                className="border-0",
-                            ),
-                            html.Footer(
-                                "Analysis of the most common contributing factors in vehicle crashes",
-                                className="fw-bold border-0",
-                            ),
+                            )
                         ],
-                        className="border-0 shadow-lg p-2",
+                        className="flex justify-center items-center flex-grow",
+                    ),
+                    html.Footer(
+                        "Analysis of the most common contributing factors in vehicle crashes",
+                        className="fw-medium text-center pt-2 border-t",
                     ),
                 ],
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3",
+                className="shadow-md rounded-md border p-4 mb-4 mx-auto max-w-7xl",
             ),
         ],
+        className="container mx-auto px-4 space-y-5",
     )
