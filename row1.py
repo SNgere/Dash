@@ -5,16 +5,6 @@ from wordcloud import WordCloud
 from io import BytesIO
 import base64
 
-line_query = """
-SELECT 
-    BOROUGH,
-    YEAR AS Year,
-    COUNT(*) AS total_collisions
-FROM crashes
-WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?
-GROUP BY BOROUGH,YEAR
-ORDER BY BOROUGH, YEAR;
-"""
 
 time_query = """
 SELECT 
@@ -35,36 +25,6 @@ bar_query = """
     GROUP BY WEEKDAY
     ORDER BY counts ASC;
  """
-
-
-def bar_chart(borough, year_range, template, con):
-    start_year, end_year = year_range
-
-    if not borough:
-        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
-
-    params = (borough, start_year, end_year)
-
-    bardf = con.execute(bar_query, parameters=params).df()
-
-    fig = px.bar(
-        bardf,
-        orientation="h",
-        x="counts",
-        y="WEEKDAY",
-        color="counts",
-        template=template,
-        color_continuous_scale="YlOrRd",
-    ).update_layout(
-        coloraxis_showscale=False,
-        bargap=0.7,
-        margin=dict(t=10, b=10, l=10, r=10),
-        xaxis=dict(title="Number of Collisions"),
-        yaxis=dict(title="Day of Week"),
-    )
-
-    return fig
-
 
 word_query = """
     WITH factors AS (
@@ -98,39 +58,6 @@ SELECT *
 FROM words
 ORDER BY Count DESC
  """
-
-
-def line_chart(borough, year_range, template, con):
-    start_year, end_year = year_range
-
-    if not borough:
-        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
-
-    params = (borough, start_year, end_year)
-
-    linedf = con.execute(line_query, parameters=params).df()
-
-    fig = px.line(
-        linedf,
-        x="Year",
-        y="total_collisions",
-        color="BOROUGH",
-        markers=True,
-        color_discrete_sequence=px.colors.qualitative.Set1,
-        line_shape="spline",
-        # range_x=[2012, 2025],
-        # template="darkly",
-        template=template,
-        category_orders={
-            "BOROUGH": ["BROOKLYN", "QUEENS", "MANHATTAN", "BRONX", "STATEN ISLAND"]
-        },
-    ).update_layout(
-        legend=dict(orientation="h", yanchor="bottom", y=1),
-        yaxis=dict(title="Number of Collisions"),
-        legend_title=None,
-        margin=dict(t=10, b=40, l=10, r=10),
-    )
-    return fig
 
 
 def time_chart(borough, year_range, template, con):
@@ -169,6 +96,35 @@ def time_chart(borough, year_range, template, con):
             ),
         ),
         showlegend=False,
+    )
+
+    return fig
+
+
+def bar_chart(borough, year_range, template, con):
+    start_year, end_year = year_range
+
+    if not borough:
+        borough = ["QUEENS", "BROOKLYN", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+
+    params = (borough, start_year, end_year)
+
+    bardf = con.execute(bar_query, parameters=params).df()
+
+    fig = px.bar(
+        bardf,
+        orientation="h",
+        x="counts",
+        y="WEEKDAY",
+        color="counts",
+        template=template,
+        color_continuous_scale="YlOrRd",
+    ).update_layout(
+        coloraxis_showscale=False,
+        bargap=0.6,
+        margin=dict(t=10, b=10, l=10, r=10),
+        xaxis=dict(title="Number of Collisions"),
+        yaxis=dict(title="Day of Week"),
     )
 
     return fig

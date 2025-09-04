@@ -100,6 +100,7 @@ def bar_plot(borough, year_range, template, con):
         template=template,
     ).update_layout(
         showlegend=False,
+        bargap=0.5,
         autosize=True,
         margin=dict(t=40, r=10, b=20, l=10),
         yaxis=dict(title="Number of Collisions"),
@@ -136,7 +137,7 @@ def row2(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="shadow-lg rounded-md border-[#848484] p-2",
+                        className="shadow-lg rounded-md border-[#848484] p-4",
                     ),
                     html.Div(
                         children=[
@@ -162,10 +163,10 @@ def row2(borough, year_range, template, con):
                                 className="border-0",
                             ),
                         ],
-                        className="shadow-lg rounded-md border-[#848484] p-2",
+                        className="shadow-lg rounded-md border-[#848484] p-4",
                     ),
                 ],
-                className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2",
+                className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-4",
             ),
         ],
         className="container mx-auto space-y-5 px-4",

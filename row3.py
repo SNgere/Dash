@@ -63,78 +63,40 @@ def map(borough, template, con):
 
 def row3(borough, year_range, template, con):
     return html.Section(
-        children=[
-            html.Div(
-                children=[
-                    dbc.Card(
-                        dbc.CardHeader(
-                            "Crash Frequency by Day of Week",
-                            className="border-0 fw-bold mb-2",
+        html.Div(
+            children=[
+                html.Div(
+                    children=[
+                        dbc.Card(
+                            dbc.CardHeader(
+                                "Crash Frequency by Day of Week",
+                                className="border-0 fw-bold mb-2",
+                            ),
+                            className="border-0",
                         ),
-                        className="border-0",
-                    ),
-                    html.Div(
-                        children=[
-                            dcc.Graph(
-                                figure=map(borough, template, con),
-                                config={
-                                    "displayModeBar": False,
-                                    "staticPlot": False,
-                                },
-                            )
-                        ],
-                        className="border-0",
-                    ),
-                    dbc.Card(
-                        dbc.CardFooter(
-                            "Tip: You can switch layers on and off by clicking items in the legend",
-                            className="border-0 fw-bold mb-2",
+                        html.Div(
+                            children=[
+                                dcc.Graph(
+                                    figure=map(borough, template, con),
+                                    config={
+                                        "displayModeBar": False,
+                                        "staticPlot": False,
+                                    },
+                                )
+                            ],
+                            className="border-0",
                         ),
-                        className="border-0",
-                    ),
-                ],
-                className="shadow-lg rounded-md border-[#848484] p-2",
-            ),
-        ],
-        className="container mx-auto space-y-5 m-4 px-4",
+                        dbc.Card(
+                            dbc.CardFooter(
+                                "Tip: You can switch layers on and off by clicking items in the legend",
+                                className="border-0 fw-bold mb-2",
+                            ),
+                            className="border-0 text-center",
+                        ),
+                    ],
+                    className="shadow-lg rounded-md border-[#848484] p-4",
+                ),
+            ]
+        ),
+        className="container mx-auto space-y-5 px-4 mb-3",
     )
-
-
-# def row3(borough, year_range, template, con):
-#     return dbc.Row(
-#         children=[
-#             dbc.Col(
-#                 children=[
-#                     dbc.Card(
-#                         children=[
-#                             dbc.CardHeader(
-#                                 "Geographic Distribution of Crashes (2025 Only)",
-#                                 className="fw-bold border-0",
-#                             ),
-#                             dbc.CardBody(
-#                                 children=[
-#                                     dcc.Graph(
-#                                         figure=map(borough, template, con),
-#                                         config={
-#                                             "displayModeBar": False,
-#                                             "staticPlot": False,
-#                                         },
-#                                     )
-#                                 ],
-#                                 className="border-0",
-#                             ),
-#                             dbc.CardFooter(
-#                                 "Tip: You can switch layers on and off by clicking items in the legend",
-#                                 className="fw-bold border-0 text-center font-italic mt-1",
-#                             ),
-#                         ],
-#                         className="border-0 shadow-lg",
-#                     )
-#                 ],
-#                 xs=12,
-#                 md=10,
-#             ),
-#         ],
-#         className="mt-1 gy-3 mb-5",
-#         justify="center",
-#     )

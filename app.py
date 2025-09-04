@@ -49,8 +49,8 @@ def update_app(borough, year_range, toggle):
     return [
         kpi(borough, year_range, template, con),
         row(borough, year_range, template, con),
-        # row2(borough, year_range, template, con),
-        # row3(borough, year_range, template, con),
+        row2(borough, year_range, template, con),
+        row3(borough, year_range, template, con),
     ]
 
 
