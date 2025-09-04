@@ -25,6 +25,7 @@ app = Dash(
     external_scripts=external_scripts,
 )
 
+server = app.server
 
 
 app.title = "NYC Vehicle Collisions Analysis"
