@@ -1,4 +1,3 @@
-import dash_bootstrap_components as dbc
 from dash import html
 
 kpi_query = """
@@ -9,6 +8,7 @@ kpi_query = """
     FROM crashes
     WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?                       
 """
+
 
 def kpi_card(graphic, label, value, color):
     return html.Div(
@@ -41,8 +41,12 @@ def kpi(borough, year_range, template, con):
             html.Div(
                 [
                     kpi_card("fa-car-burst", "Total Crashes", total_crashes, "white"),
-                    kpi_card("fa-user-injured", "Total Injured", persons_injured, "white"),
-                    kpi_card("fa-skull-crossbones", "Total Killed", persons_killed, "white"),
+                    kpi_card(
+                        "fa-user-injured", "Total Injured", persons_injured, "white"
+                    ),
+                    kpi_card(
+                        "fa-skull-crossbones", "Total Killed", persons_killed, "white"
+                    ),
                 ],
                 className="flex justify-center gap-3 text-center",
             )

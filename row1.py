@@ -110,27 +110,28 @@ def bar_chart(borough, year_range, template, con):
     params = (borough, start_year, end_year)
 
     bardf = con.execute(bar_query, parameters=params).df()
-    total_counts = bardf['counts'].sum()
-    bardf['percentage'] = (bardf['counts'] / total_counts) * 100
+    total_counts = bardf["counts"].sum()
+    bardf["percentage"] = (bardf["counts"] / total_counts) * 100
 
-    fig = px.bar(
-        bardf,
-        orientation="h",
-        x="counts",
-        y="WEEKDAY",
-        color="counts",
-        text='percentage',
-        template=template,
-        color_continuous_scale="YlOrRd",
-    ).update_layout(
-        coloraxis_showscale=False,
-        bargap=0.6,
-        margin=dict(t=10, b=10, l=10, r=10),
-        xaxis=dict(title="Number of Collisions"),
-        yaxis=dict(title="Day of Week"),
-    ).update_traces(
-        texttemplate='%{text:.1f}%',
-        textposition='inside'
+    fig = (
+        px.bar(
+            bardf,
+            orientation="h",
+            x="counts",
+            y="WEEKDAY",
+            color="counts",
+            text="percentage",
+            template=template,
+            color_continuous_scale="YlOrRd",
+        )
+        .update_layout(
+            coloraxis_showscale=False,
+            bargap=0.6,
+            margin=dict(t=10, b=10, l=10, r=10),
+            xaxis=dict(title="Number of Collisions"),
+            yaxis=dict(title="Day of Week"),
+        )
+        .update_traces(texttemplate="%{text:.1f}%", textposition="inside")
     )
 
     return fig
