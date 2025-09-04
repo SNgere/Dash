@@ -110,6 +110,8 @@ def bar_chart(borough, year_range, template, con):
     params = (borough, start_year, end_year)
 
     bardf = con.execute(bar_query, parameters=params).df()
+    total_counts = bardf['counts'].sum()
+    bardf['percentage'] = (bardf['counts'] / total_counts) * 100
 
     fig = px.bar(
         bardf,
@@ -117,6 +119,7 @@ def bar_chart(borough, year_range, template, con):
         x="counts",
         y="WEEKDAY",
         color="counts",
+        text='percentage',
         template=template,
         color_continuous_scale="YlOrRd",
     ).update_layout(
@@ -125,6 +128,9 @@ def bar_chart(borough, year_range, template, con):
         margin=dict(t=10, b=10, l=10, r=10),
         xaxis=dict(title="Number of Collisions"),
         yaxis=dict(title="Day of Week"),
+    ).update_traces(
+        texttemplate='%{text:.1f}%',
+        textposition='inside'
     )
 
     return fig
@@ -143,7 +149,7 @@ def word_cloud_plot(worddf):
     return wordcloud
 
 
-def word_cloud_func(con, borough, year_range):
+def word_cloud_func(borough, year_range, con):
     start_year, end_year = year_range
 
     if not borough:
@@ -232,7 +238,7 @@ def row(borough, year_range, template, con):
                     html.Div(
                         children=[
                             html.Img(
-                                src=word_cloud_func(con, borough, year_range),
+                                src=word_cloud_func(borough, year_range, con),
                             )
                         ],
                         className="flex justify-center items-center flex-grow",
