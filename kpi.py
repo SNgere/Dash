@@ -10,17 +10,17 @@ kpi_query = """
     WHERE BOROUGH IN ? AND YEAR BETWEEN ? AND ?                       
 """
 
-
-def kpi_card(label, value, color):
+def kpi_card(graphic, label, value, color):
     return html.Div(
         [
-            html.Small(label, className="text-gray-500 text-[.9em] font-bold"),
+            html.I(className=f"fa {graphic} fa-1x text-[#ff0000]"),
+            html.Small(label, className="text-[.9em] font-bold"),
             html.H2(
                 f"{value:,}",
                 className=f"text-{color}-700 font-extrabold text-md md:text-lg lg:text-xl",
             ),
         ],
-        className="border rounded-xl shadow-lg p-3 w-[30vw] text-center",
+        className="border rounded-xl shadow-lg p-3 w-[30vw] text-center flex flex-col justify-center",
     )
 
 
@@ -40,9 +40,9 @@ def kpi(borough, year_range, template, con):
         [
             html.Div(
                 [
-                    kpi_card("Total Crashes", total_crashes, "blue"),
-                    kpi_card("Total Injured", persons_injured, "green"),
-                    kpi_card("Total Killed", persons_killed, "red"),
+                    kpi_card("fa-car-burst", "Total Crashes", total_crashes, "white"),
+                    kpi_card("fa-user-injured", "Total Injured", persons_injured, "white"),
+                    kpi_card("fa-skull-crossbones", "Total Killed", persons_killed, "white"),
                 ],
                 className="flex justify-center gap-3 text-center",
             )
