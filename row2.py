@@ -117,7 +117,7 @@ def row2(borough, year_range, template, con):
                         children=[
                             dbc.Card(
                                 dbc.CardHeader(
-                                    "Crash Frequency by Time of Day",
+                                    "Crash Frequency by Year",
                                     className="border-0 fw-bold mb-2",
                                 ),
                                 className="border-0",
@@ -143,7 +143,7 @@ def row2(borough, year_range, template, con):
                         children=[
                             dbc.Card(
                                 dbc.CardHeader(
-                                    "Crash Frequency by Day of Week",
+                                    "Top vehicle types in collisions",
                                     className="border-0 fw-bold mb-2",
                                 ),
                                 className="border-0",
